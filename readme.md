@@ -1,1 +1,1 @@
-This is API to Bus Reservation System
+This is an API to simulate Bus Reservation System.
