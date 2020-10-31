@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Show</title>
+</head>
+
+<body>
+    <h1>More Infomation About Bus Number <%= results[0].bid %></h1>
+    <div class="row">
+        <div class="col-12 border text-center border-primary">
+            <p>Bus Id :<%=results[0].bid%></p>
+            <p>Bus Name :<%=results[0].name%></p>
+            <p>Number of Seats :<%=results[0].seats%></p>
+            <p>Bus Number :<%=results[0].number%></p>
+            <form action="/bus/<%= results[0].bid %>/new" method="GET">
+                <button class="btn btn-xs btn-danger">Click To Book</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
