@@ -27,12 +27,18 @@ app.post("/bus", (req, res) => {
     let source = req.body.source;
     let destination = req.body.destination;
 
-    let sql = `SELECT name, bid FROM bus WHERE bus.rid IN(SELECT rid from route where src="${req.body.source}" and dest="${req.body.destination}")`;
-    let query = db.query(sql, (err, results) => {
+    let query = `SELECT * FROM bus WHERE bus.rid IN(SELECT rid from route where src="${req.body.source}" and dest="${req.body.destination}")`;
+    db.query(query, (err, results) => {
         if (err) throw err;
         res.render("bus.ejs", { results, source, destination });
     });
 });
+
+// db.query(QUERY1, function(err, result1) {
+//     db.query(QUERY2, function(err, result2) {
+//       res.render('template', { rows : result1, rows2: result2 });
+//     });
+//   });
 
 app.get("/bus/:id", (req, res) => {
     let sql = `SELECT * FROM bus WHERE bus.bid= ${req.params.id}`;
@@ -44,7 +50,7 @@ app.get("/bus/:id", (req, res) => {
 });
 
 app.get("/bus/:id/new", (req, res) => {
-    res.send("Okay, book now!");
+    res.render('new');
 })
 
 db.connect((err) => {

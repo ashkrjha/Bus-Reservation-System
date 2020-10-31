@@ -5,6 +5,8 @@ USE buses;
 CREATE TABLE IF NOT EXISTS bus (
     bid INT PRIMARY KEY,
     rid INT,
+    dept_time TIME,
+    arr_time TIME,
     name VARCHAR(50),
     number VARCHAR(50),
     seats INT
@@ -16,15 +18,13 @@ CREATE TABLE IF NOT EXISTS bus (
 
 CREATE TABLE IF NOT EXISTS route (
     rid INT PRIMARY KEY,
-    dept_time TIME,
-    arr_time TIME,
     dist_source INT,
     src VARCHAR(50),
     dest VARCHAR(50)
 );
 
 CREATE TABLE IF NOT EXISTS passenger (
-    pid INT PRIMARY KEY,
+    pid INT PRIMARY KEY AUTO_INCREMENT,
     bid INT,
     name VARCHAR(50),
     age INT,
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS passenger (
 );
 
 CREATE TABLE IF NOT EXISTS ticket (
-    tid INT PRIMARY KEY,
+    tid INT PRIMARY KEY AUTO_INCREMENT,
     fare INT,
     rid INT,
     pid INT,
@@ -99,42 +99,42 @@ REFERENCES route (rid);
 --     (15, 'Varanasi');
 
 INSERT INTO
-	route(rid, dept_time, arr_time, dist_source, src, dest)
+	route(rid,dist_source, src, dest)
 VALUES
-	(1, '12:00:00', '23:00:00', 1000, "Ahmedabad", "Bengaluru"),
-    (2, '05:00:00', '06:00:00', 1000, "Bhubaneshwar", "Bhopal"),
-    (3, '9:00:00', '9:30:00', 1000, "Chennai", "Hyderabad"),
-    (4, '12:00:00', '23:00:00', 1000, "Bengaluru", "Chennai"),
-    (5, '12:00:00', '23:00:00', 1000, "Bengaluru", "Pune"),
-    (6, '12:00:00', '23:00:00', 1000, "Bengaluru", "Hyderabad"),
-    (7, '12:00:00', '23:00:00', 1000, "Jaipur", "Lucknow"),
-    (8, '12:00:00', '23:00:00', 1000, "Srinagar", "Mumbai"),
-    (9, '12:00:00', '23:00:00', 1000, "Patna", "New Delhi"),
-    (10, '12:00:00', '23:00:00', 1000, "Varansi", "Srinagar");
+	(1, 1000, "Ahmedabad", "Bengaluru"),
+    (2, 1000, "Bhubaneshwar", "Bhopal"),
+    (3, 1000, "Chennai", "Hyderabad"),
+    (4, 1000, "Bengaluru", "Chennai"),
+    (5, 1000, "Bengaluru", "Pune"),
+    (6, 1000, "Bengaluru", "Hyderabad"),
+    (7, 1000, "Jaipur", "Lucknow"),
+    (8, 1000, "Srinagar", "Mumbai"),
+    (9, 1000, "Patna", "New Delhi"),
+    (10, 1000, "Varansi", "Srinagar");
 
 INSERT INTO
-    bus(bid, name, number, seats, rid)
+    bus(bid,dept_time, arr_time, name, number, seats, rid)
 VALUES
-    (1, 'Volvo-20', 'KA-50-PP-9999', 40, 1),
-    (2, 'Volvo-20', 'KA-50-PP-9999', 40, 2),
-    (3, 'Volvo-20', 'KA-50-PP-9999', 40, 3),
-    (4, 'Volvo-20', 'KA-50-PP-9999', 40, 4),
-    (5, 'Volvo-20', 'KA-50-PP-9999', 40, 5),
-    (6, 'Volvo-20', 'KA-50-PP-9999', 40, 6),
-    (7, 'Volvo-20', 'KA-50-PP-9999', 40, 7),
-    (8, 'Volvo-20', 'KA-50-PP-9999', 40, 8),
-    (9, 'Volvo-20', 'KA-50-PP-9999', 40, 9),
-    (10, 'Volvo-20', 'KA-50-PP-9999', 40, 10),
-    (11, 'Volvo-20', 'KA-50-PP-9999', 40, 1),
-    (12, 'Volvo-20', 'KA-50-PP-9999', 40, 2),
-    (13, 'Volvo-20', 'KA-50-PP-9999', 40, 3),
-    (14, 'Volvo-20', 'KA-50-PP-9999', 40, 4),
-    (15, 'Volvo-20', 'KA-50-PP-9999', 40, 5),
-    (16, 'Volvo-20', 'KA-50-PP-9999', 40, 6),
-    (17, 'Volvo-20', 'KA-50-PP-9999', 40, 7),
-    (18, 'Volvo-20', 'KA-50-PP-9999', 40, 8),
-    (19, 'Volvo-20', 'KA-50-PP-9999', 40, 9),
-    (20, 'Volvo-20', 'KA-50-PP-9999', 40, 10);
+    (1, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 1),
+    (2, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 2),
+    (3, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 3),
+    (4, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 4),
+    (5, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 5),
+    (6, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 6),
+    (7, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 7),
+    (8, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 8),
+    (9, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 9),
+    (10, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 10),
+    (11, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 1),
+    (12, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 2),
+    (13, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 3),
+    (14, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 4),
+    (15, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 5),
+    (16, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 6),
+    (17, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 7),
+    (18, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 8),
+    (19, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 9),
+    (20, '12:00:00', '23:00:00','Volvo-20', 'KA-50-PP-9999', 40, 10);
 
 
 INSERT INTO 
