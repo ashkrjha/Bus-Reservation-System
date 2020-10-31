@@ -1,29 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/stylesheets/main.css">
-    <title>Search</title>
-</head>
-<body>
+<%- include("./partials/header"); -%> 
+ 
     
-
-    <div class="row">
         <% for(let b of results){%>  
-            <div class="col-12 border text-center border-primary">
-                <p><%=b.bid%></p>
-                <p><%=b.name%></p>
-                <form action="bus/<%=b.bid%>" method="get">
-                    <button class="btn btn-xs btn-success">More Info</button>
-                </form>
-                
+            <div class="row justify-content-around">
+                <div class="col-8 border text-center border-primary bg-dark text-white m-3 p-2">
+                    <h2>Bus Number: <%=b.bid%></h2>
+                    <p><%=b.name%></p>
+                    <form action="bus/<%=b.bid%>" method="get">
+                        <button class="btn btn-xs btn-success">More Info</button>
+                    </form> 
+                </div>
             </div>
         <%}%>
-    </div>
     
-
-
-</body>
-</html>
+<%- include("./partials/footer"); -%> 

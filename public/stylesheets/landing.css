@@ -7,11 +7,22 @@ body {
     z-index: 1;
     position: relative;
     text-align: center;
-    padding-top: 40vh;
+    padding-top: 35vh;
 }
   
 #landing-header h1 {
     color: #fff;
+    text-shadow: 2px 2px #000;
+}
+
+input[type=text] {
+  width: 30%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
   
 .slideshow { 
@@ -41,22 +52,22 @@ body {
   }
   
   .slideshow li:nth-child(1) { 
-    background-image: url(../images/img1.jpg);
+    background-image: linear-gradient(rgb(0,0,0,0.8),rgba(0,0,0,0.8)), url(../images/img1.jpg);
   }
   .slideshow li:nth-child(2) { 
-    background-image: url(../images/img2.jpg);
+    background-image: linear-gradient(rgb(0,0,0,0.8),rgba(0,0,0,0.8)), url(../images/img2.jpg);
     animation-delay: 10s; 
   }
   .slideshow li:nth-child(3) { 
-    background-image: url(../images/img3.jpg);
+    background-image: linear-gradient(rgb(0,0,0,0.8),rgba(0,0,0,0.8)), url(../images/img3.jpg);
     animation-delay: 20s; 
   }
   .slideshow li:nth-child(4) { 
-    background-image: url(../images/img4.jpg);
+    background-image: linear-gradient(rgb(0,0,0,0.8),rgba(0,0,0,0.8)), url(../images/img4.jpg);
     animation-delay: 30s; 
   }
   .slideshow li:nth-child(5) { 
-    background-image: url(../images/img5.jpg);
+    background-image: linear-gradient(rgb(0,0,0,0.8),rgba(0,0,0,0.8)), url(../images/img5.jpg);
     animation-delay: 40s; 
   }
   
@@ -65,7 +76,7 @@ body {
       opacity: 0; 
       animation-timing-function: ease-in;
     }
-    10% {
+    5% {
       opacity: 1;
       animation-timing-function: ease-out;
     }
