@@ -44,7 +44,7 @@ app.get("/bus/:id", (req, res) => {
 });
 
 app.get("/bus/:id/new", (req, res) => {
-    res.send("Okay, book now!");
+    res.render('new');
 })
 
 db.connect((err) => {
