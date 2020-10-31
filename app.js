@@ -36,5 +36,5 @@ db.connect((err) => {
 });
 
 app.listen(3000, () => {
-    console.log("Server running...");
+    console.log("Connected to Port 3000");
 });
