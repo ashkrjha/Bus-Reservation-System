@@ -14,7 +14,7 @@ app.use(express.static(__dirname + '/public'));
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "password",
+    password: "polynomials",
     database: "buses"
 });
 
@@ -50,8 +50,16 @@ app.get("/bus/:id", (req, res) => {
 });
 
 app.get("/bus/:id/new", (req, res) => {
-    res.render('new');
-})
+    let query1 = `SELECT * FROM bus WHERE bus.bid= ${req.params.id}`;
+    let query2 = `SELECT * FROM route WHERE route.rid IN(SELECT bus.rid FROM bus WHERE bus.bid= ${req.params.id})`;
+    db.query(query1, (err, results1) => {
+        db.query(query2, (err, results2) => {
+            if(err)
+                throw err;
+            res.render('new', {results1, results2});
+        });
+    });
+});
 
 db.connect((err) => {
     if (err) {
