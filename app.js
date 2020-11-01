@@ -14,15 +14,13 @@ app.use(express.static(__dirname + '/public'));
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "password",
+    password: "polynomials",
     database: "buses"
 });
 
 app.get("/", (req, res) => {
     res.render("landing.ejs");
 });
-
-
 
 app.post("/bus", (req, res) => {
 
@@ -35,12 +33,6 @@ app.post("/bus", (req, res) => {
         res.render("bus.ejs", { results, source, destination });
     });
 });
-
-// db.query(QUERY1, function(err, result1) {
-//     db.query(QUERY2, function(err, result2) {
-//       res.render('template', { rows : result1, rows2: result2 });
-//     });
-//   });
 
 app.get("/bus/:id", (req, res) => {
     let sql = `SELECT * FROM bus WHERE bus.bid= ${req.params.id}`;
@@ -57,7 +49,7 @@ app.post("/bus/:id", (req, res) =>{
     //variables
     let name=req.body.name;
     let age=req.body.age;
-    let gender=req.body.gender.toUpperCase();
+    let gender=req.body.gender;
     let bid=req.params.id;
     let post= {bid: bid,  name: name , age: age, gender: gender};
 
@@ -84,7 +76,6 @@ app.post("/bus/:id", (req, res) =>{
         if(err) throw err;
         let data={fare:fare,rid:result1[0].rid,pid:pid};
         let sql3='INSERT INTO ticket SET ?';
-        console.log(data);
         let query=db.query(sql3,data,(err,result2)=>{
             if(err) throw err; 
             res.render('ticket',{data,result1,name,age,gender});
