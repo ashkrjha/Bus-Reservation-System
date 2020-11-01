@@ -57,3 +57,23 @@ form {
 .navbar-dark .navbar-nav .nav-link {
   color: white;
 }
+/* #mainNavbar{
+    overflow: hidden;
+    background-color: #333;
+    position: fixed; /* Set the navbar to fixed position */
+    /* top: 0; /* Position the navbar at the top of the page */
+    /* width: 100%; Full width
+  } */
+   
+
+/* #ticket-head{
+  background-image: ;
+} */
+.ticket{
+    background-image: url("../images/ticket.jpg");
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position-x: 30vh;
+    background-position: centre;
+    height: 600px;
+}

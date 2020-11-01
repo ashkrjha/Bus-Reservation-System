@@ -3,7 +3,7 @@
         <h2 class="text-center">ENTER THE DETAILS</h2>
         <p class="text-center">Bus Number : <%= results1[0].bid %></p>
         <p class="text-center"><%= results2[0].src %> -> <%= results2[0].dest %></p>
-        <form action="#" method="POST">
+        <form action="/bus/<%= results1[0].bid %>" method="post">
             <input type="text" placeholder="Name" name="name" required>
             <br>
             <input type="number" placeholder="Age" name="age" min="0" max="125" required>
@@ -12,6 +12,7 @@
             <br>
             <button class="btn btn-danger mt-2">Click to Book!</button>
         </form>
+        <a href="/bus/<%= results1[0].bid %>"></a>Go Back!</a>
     </div>
 
 
