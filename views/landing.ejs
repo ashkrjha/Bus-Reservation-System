@@ -5,18 +5,48 @@
   <title>Bus Reservation System</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link href="/stylesheets/landing.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css2?family=Acme&display=swap" rel="stylesheet">
 </head>
 
 <body>
-
+  <a href="#" class="btn btn-danger btn-md landing-btn">Log Out</a>
+  <a href="#" class="btn btn-danger btn-md landing-btn">Sign Up</a>
+  <a href="#" class="btn btn-danger btn-md landing-btn">Login</a>
+ 
   <div id="landing-header">
+   
     <h1 class="mb-4">Bus Reservation System</h1>
 
     <form action="/bus" method="post">
-      <input type="text" placeholder="Source" class="mr-3" name="source" required>
-      <input type="text" placeholder="Destination" name="destination" required>
+      <!-- <input type="text" placeholder="Source" class="mr-3" name="source" required> -->
+      
+      <select class="mr-3" name="source" required>
+        <option value="" disabled selected>Source</option>
+        <option value="Mumbai">Mumbai</option>
+        <option value="New Delhi">New Delhi</option>
+        <option value="Chennai">Chennai</option>
+        <option value="Bangalore">Bangalore</option>
+        <option value="Srinagar">Srinagar</option>
+      </select>
+
+      <select class="mr-3" name="destination" required>
+        <option value="" disabled selected>Destination</option>
+        <option value="Mumbai">Mumbai</option>
+        <option value="New Delhi">New Delhi</option>
+        <option value="Chennai">Chennai</option>
+        <option value="Bangalore">Bangalore</option>
+        <option value="Srinagar">Srinagar</option>
+      </select>
+
+      <!-- <input type="text" placeholder="Destination" name="destination" required> -->
       <br>
-      <button class="btn btn-lg btn-success mt-4">Click to book your ticket!</button>
+      <!-- <button class="btn btn-lg btn-success mt-4">Search</button> -->
+      <div class="row mt-4 justify-content-center">
+        <div class="col-4 justify-content">
+          <button type="submit" class="btn btn-success btn-block btn-lg" id="search-btn">Search</button>
+        </div>  
+      </div>
+      
     </form>
 
   </div>

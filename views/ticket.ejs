@@ -7,43 +7,55 @@
     <div class="container mr-5 first">
         <div class="row">
             <div class="col-4 pl-0">
-                <h3>Name :<%= name%></h3>
+                <h3>Name : <%= name%></h3>
             </div>
             <div class="col-8 pl-0">
-                <h3>Ticket Id :<%= data.pid %></h3>
+                <h3>Ticket Id : <%= data.pid %></h3>
             </div> 
         </div>
     </div>
      
     <div class="container mr-5">
         <div class="row">
-            <h3>Age :<%=age%></h3>
+            <h3>Age : <%=age%></h3>
         </div>
         <div class="row">
             <h3>Gender : <%=gender%></h3>
         </div>
+        <br>
          <div class="row">
-                <h3>Bus Details: </h3>
+                <h3><u>Bus Details :</u> </h3>
         </div>
     </div>
    
       <div class="container mr-5">
         <div class="row">
             <div class="col-4 pl-0">
-                <h3>Bus Number :<%= result1[0].bid %></h3>
+                <h3>Bus Number : <%= result1[0].bid %></h3>
             </div>
             <div class="col-8 pl-0">
-                <h3>Bus :<%= result1[0].number %></h3>
+                <h3>Bus : <%= result1[0].number %></h3>
             </div>
         </div>
      </div>   
       
     <div class="container mr-5">
         <div class="row">
-            <h3>Bus Name:<%= result1[0].name %></h3> 
+            <div class="col-4 pl-0">
+                <h3>Bus Name : <%= result1[0].name %></h3>
+            </div>
+            <div class="col-8 pl-0">
+                <h3>Arrival Time : <%= result1[0].arr_time %></h3>
+            </div>
         </div>
         <div class="row">
-            <h3>Bus Route:<%= result1[0].rid %></h3> 
+            <div class="col-4 pl-0" >
+                <h3>Bus Route : <%= result1[0].rid %></h3>
+            </div>
+            <div class="col-8 pl-0" >
+                <h3>Depature Time : <%= result1[0].dept_time %></h3>
+            </div>
+             
         </div>
     </div>
    

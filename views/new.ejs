@@ -1,19 +1,45 @@
 <%- include("./partials/header"); -%>
-    <div class="bg-light form-div">
-        <h2 class="text-center">ENTER THE DETAILS</h2>
-        <p class="text-center">Bus Number : <%= results1[0].bid %></p>
-        <p class="text-center"><%= results2[0].src %> -> <%= results2[0].dest %></p>
-        <form action="/bus/<%= results1[0].bid %>" method="post">
-            <input type="text" placeholder="Name" name="name" required>
-            <br>
-            <input type="number" placeholder="Age" name="age" min="0" max="125" required>
-            <br>
-            <input type="text" placeholder="Gender(M/F)" name="gender" maxlength="1" required>
-            <br>
-            <button class="btn btn-danger mt-2">Click to Book!</button>
-        </form>
-        <a href="/bus/<%= results1[0].bid %>"></a>Go Back!</a>
-    </div>
+    <div class="container mt-5">
+        <div class="row">
+          <div class="col"></div>
+          <div class="col-sm-7 col-md-6 col-lg-5">
+            <div class="card shadow border-0">
+              <div class="card-body">
+                <h1 class="text-center">ENTER THE DETAILS</h1>
+                <h2 class="text-center">Bus Number : <%= results1[0].bid %></h2>
+                <h2 class="text-center"><%= results2[0].src %> -> <%= results2[0].dest %></h2>
+                <form class="needs-validation" action="/bus/<%= results1[0].bid %>" method="POST" novalidate>
+                  <div class="form-group">
+                    <input type="text" placeholder="Name" name="name" required>
+                    <div class="invalid-feedback">
+                      Please enter your name.
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <input type="number" placeholder="Age" name="age" min="0" max="125" required>
+                    <div class="invalid-feedback">
+                      Please enter your age.
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <!-- <input type="text" placeholder="Gender(M/F)" name="gender" maxlength="1" required> -->
+                    <select name="gender" required>
+                        <option value="" disabled selected>Gender</option>
+                        <option value="M">M</option>
+                        <option value="F">F</option>
+                      </select>
+                    <div class="invalid-feedback">
+                      Please enter your age.
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-danger btn-block">Click to Book</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col"> </div>
+        </div>
+      </div>
 
 
 <%- include("./partials/footer"); -%>
