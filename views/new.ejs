@@ -1,9 +1,18 @@
 <%- include("./partials/header"); -%>
-    
-    <form action="#" method="POST">
-        <input type="text" placeholder="Name" name="name" required>
-        <input type="text" placeholder="Source" class="mr-3" name="source" required>
-        <input type="text">
-    </form>
+    <div class="bg-light form-div">
+        <h2 class="text-center">ENTER THE DETAILS</h2>
+        <p class="text-center">Bus Number : <%= results1[0].bid %></p>
+        <p class="text-center"><%= results2[0].src %> -> <%= results2[0].dest %></p>
+        <form action="#" method="POST">
+            <input type="text" placeholder="Name" name="name" required>
+            <br>
+            <input type="number" placeholder="Age" name="age" min="0" max="125" required>
+            <br>
+            <input type="text" placeholder="Gender(M/F)" name="gender" maxlength="1" required>
+            <br>
+            <button class="btn btn-danger mt-2">Click to Book!</button>
+        </form>
+    </div>
+
 
 <%- include("./partials/footer"); -%>
