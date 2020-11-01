@@ -1,30 +1,37 @@
-<%- include("./partials/header"); -%> 
- 
-    
+<%- include("./partials/header"); -%>
+<header class="jumbotron text-light rounded-0 d-none d-md-block">
+    <div class="container">
+        <div class="jumbotron-text mt-5 text-center">
+            <h1 class="display-3 jumbotronText"><i class="fas fa-bus-alt mr-2"></i>Buses from <%= source %> to
+                <%= destination %></h1>
+        </div>
+    </div>
+</header>
+
 <div class="container">
-	<div class="jumbotron" >
-		<h1><i class="fas fa-bus-alt"></i> List Of Buses from <%= source %> to <%= destination %></h1>
-	</div>
-</div>
-        <% for(let b of results){%>  
-            <div class="row justify-content-around">
-                <div class="col-8 text-center bg-light m-3 p-2">
-                    <div class="row">
-                        <div class="col-6">
-                            <h2>Bus Number: <%=b.bid%></h2>
-                        </div>
-                        <div class="col-6">
-                            <p><%=b.dept_time%> : <%=b.arr_time%></p>
-                        </div>
-                    </div>
-                    
-                    <p><%=b.name%></p>
-                    
-                    <form action="bus/<%=b.bid%>" method="get">
+    <div class="row mb-5">
+        <% results.forEach(function(bus) { %>
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="card indexCards shadow border-0 mt-4">
+                <img id="campgroundCard" class="card-img-top"
+                    src="https://5.imimg.com/data5/RP/EX/GLADMIN-62060092/volvo-bus-500x500.png">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-capitalize">
+                        <h2>Bus Number: <%=bus.bid%></h2>
+                    </h5>
+                    <h6 class="card-subtitle">
+                        <p><%=bus.name%></p>
+                        <p><%=bus.dept_time%> : <%=bus.arr_time%></p>
+                    </h6>
+                    <form action="bus/<%=bus.bid%>" method="GET">
                         <button class="btn btn-xs btn-success">More Info</button>
-                    </form> 
+                    </form>
                 </div>
             </div>
-        <%}%>
-    
-<%- include("./partials/footer"); -%> 
+        </div>
+        <% }) %>
+    </div>
+</div>
+
+
+<%- include("./partials/footer"); -%>
