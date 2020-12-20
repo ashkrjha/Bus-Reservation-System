@@ -27,9 +27,11 @@ app.post("/bus", (req, res) => {
     let source = req.body.source;
     let destination = req.body.destination;
 
-    let query = `SELECT * FROM bus WHERE bus.rid IN(SELECT rid from route where src="${req.body.source}" and dest="${req.body.destination}")`;
+    let query = `SELECT * FROM bus WHERE bus.rid IN(SELECT rid from route where src="${source}" and dest="${destination}")`;
+    
     db.query(query, (err, results) => {
         if (err) throw err;
+        console.log(results);
         res.render("bus.ejs", { results, source, destination });
     });
 });
