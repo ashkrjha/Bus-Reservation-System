@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const app = express();
 
+var session = require('express-session');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -18,29 +19,49 @@ const db = mysql.createConnection({
     database: "buses"
 });
 
+app.use(session({ 
+    secret: '123456cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60000 }
+  }));
+
+// const db=require('./database');
+
+function isloggedIn(req,res,next){
+    if(req.session.loggedinUser){
+        return next();
+    }
+    res.redirect("/login");
+}
+
+
 app.get("/", (req, res) => {
-    res.render("landing.ejs");
+    var loggedinUser = req.session.loggedinUser;
+    res.render("landing.ejs",{loggedinUser:loggedinUser});
+    
 });
 
 app.post("/bus", (req, res) => {
 
     let source = req.body.source;
     let destination = req.body.destination;
-
+    var loggedinUser = req.session.loggedinUser;
     let query = `SELECT * FROM bus WHERE bus.rid IN(SELECT rid from route where src="${source}" and dest="${destination}")`;
     
     db.query(query, (err, results) => {
         if (err) throw err;
         console.log(results);
-        res.render("bus.ejs", { results, source, destination });
+        res.render("bus.ejs", { results, source, destination, loggedinUser});
     });
 });
 
 app.get("/bus/:id", (req, res) => {
+    var loggedinUser = req.session.loggedinUser;
     let sql = `SELECT * FROM bus WHERE bus.bid= ${req.params.id}`;
     let query = db.query(sql, (err, results) => {
         if (err) throw err;
-        res.render('show', { results });
+        res.render('show', { results ,loggedinUser});
 
     })
 });
@@ -54,6 +75,9 @@ app.post("/bus/:id", (req, res) =>{
     let gender=req.body.gender;
     let bid=req.params.id;
     let post= {bid: bid,  name: name , age: age, gender: gender};
+    var loggedinUser = req.session.loggedinUser;
+    var id=req.session.id;
+    console.log(req.session.id);
 
     //Inserting into passenger table
     let sql='INSERT INTO passenger SET ?';
@@ -76,24 +100,25 @@ app.post("/bus/:id", (req, res) =>{
    
     db.query(query1,(err,result1)=>{
         if(err) throw err;
-        let data={fare:fare,rid:result1[0].rid,pid:pid};
+        let data={fare:fare,rid:result1[0].rid,pid:pid,id:id};
         let sql3='INSERT INTO ticket SET ?';
         let query=db.query(sql3,data,(err,result2)=>{
             if(err) throw err; 
-            res.render('ticket',{data,result1,name,age,gender});
+            res.render('ticket',{data,result1,name,age,gender,loggedinUser});
         });
     });
       
 });
 
-app.get("/bus/:id/new", (req, res) => {
+app.get("/bus/:id/new", isloggedIn, (req, res) => {
+    var loggedinUser = req.session.loggedinUser;
     let query1 = `SELECT * FROM bus WHERE bus.bid= ${req.params.id}`;
     let query2 = `SELECT * FROM route WHERE route.rid IN(SELECT bus.rid FROM bus WHERE bus.bid= ${req.params.id})`;
     db.query(query1, (err, results1) => {
         db.query(query2, (err, results2) => {
             if(err)
                 throw err;
-            res.render('new', {results1, results2});
+            res.render('new', {results1, results2, loggedinUser});
         });
     });
 });
@@ -105,6 +130,97 @@ db.connect((err) => {
     }
     console.log("Connected");
 });
+
+
+
+// var registrationRouter = require('./routes/registration');
+// app.use('/', registrationRouter);
+// var loginRouter = require('./routes/login');
+// app.use('/', loginRouter);
+// var dashboardRouter = require('./routes/dashboard');
+// app.use('/', dashboardRouter);
+// var logoutRouter = require('./routes/logout');
+// app.use('/', logoutRouter);
+
+
+
+
+
+/*===========================================================================================*/
+
+app.get('/dashboard', function(req, res, next) {
+    if(req.session.loggedinUser){
+        res.render('dashboard',{email:req.session.emailAddress})
+    }else{
+        res.redirect('/login');
+    }
+});
+
+app.get('/login', function(req, res, next) {
+    res.render('login-form');
+  });
+  
+app.post('/login', function(req, res){
+      var emailAddress = req.body.email_address;
+      var password = req.body.password;
+  
+      var sql='SELECT * FROM registration WHERE email_address =? AND password =?';
+      db.query(sql, [emailAddress, password], function (err, data, fields) {
+          if(err) throw err
+          if(data.length>0){
+              req.session.loggedinUser= true;
+              req.session.emailAddress= emailAddress;
+              res.redirect('/dashboard');
+          }else{
+              res.render('login-form',{alertMsg:"Your Email Address or password is wrong"});
+          }
+      })
+  
+});
+
+app.get('/logout', function(req, res) {
+    req.session.destroy();
+    res.redirect('/');
+});
+
+app.get('/register', function(req, res, next) {
+    res.render('registration-form');
+  });
+  
+  // to store user input detail on post request
+  app.post('/register', function(req, res, next) {
+      
+      inputData ={
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
+          email_address: req.body.email_address,
+          gender: req.body.gender,
+          password: req.body.password
+      }
+      const confirm_password=req.body.confirm_password;
+  // check unique email address
+  // var sql=`SELECT * FROM registration WHERE email_address = "${inputData.email_address}"`;
+  var sql=`SELECT * FROM registration WHERE email_address = ?`;
+  db.query(sql, [inputData.email_address] ,function (err, data, fields) {
+   if(err) throw err
+   if(data.length>1){
+       var msg = inputData.email_address+ "was already exist";
+   }else if(confirm_password != inputData.password){
+      var msg ="Password & Confirm Password is not Matched";
+   }else{
+       
+      // save users data into database
+  var sql = `INSERT INTO registration SET ?`;
+  db.query(sql, inputData, function (err, data) {
+      if (err) throw err;
+      });
+      var msg ="Your are successfully registered";
+      }
+   res.render('registration-form',{alertMsg:msg});
+  })
+       
+});
+/*===========================================================================================*/
 
 app.listen(3000, () => {
     console.log("Connected to Port 3000");

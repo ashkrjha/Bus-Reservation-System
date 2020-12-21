@@ -180,3 +180,16 @@ VALUES
     (38,'Raju','Conductor',19),
     (39,'Raju','Driver',20),
     (40,'Raju','Conductor',20);
+
+CREATE TABLE `registration` (
+  `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(30) DEFAULT NULL,
+  `last_name` varchar(30) DEFAULT NULL,
+  `gender` varchar(10) DEFAULT NULL,
+  `email_address` varchar(50) DEFAULT NULL,
+  `password` varchar(20) DEFAULT NULL
+);
+
+ALTER TABLE ticket 
+ADD FOREIGN KEY (id)
+REFERENCES registration (id);
