@@ -8,7 +8,7 @@
                 <h1 class="text-center">ENTER THE DETAILS</h1>
                 <h2 class="text-center">Bus Number : <%= results1[0].bid %></h2>
                 <h2 class="text-center"><%= results2[0].src %> -> <%= results2[0].dest %></h2>
-                <form class="needs-validation" action="/bus/<%= results1[0].bid %>" method="POST" novalidate>
+                <form class="needs-validation" action="/bus/<%= results1[0].bid %>" method="POST" >
                   <div class="form-group">
                     <input type="text" placeholder="Name" name="name" required>
                     <div class="invalid-feedback">

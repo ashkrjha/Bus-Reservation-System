@@ -119,6 +119,26 @@ app.get("/bus/:id/new", isloggedIn, (req, res) => {
     });
 });
 
+app.get("/bus/dashboard/:id", (req, res) => {
+    var loggedinUser = req.session.loggedinUser;
+    let sql = `SELECT * FROM ticket WHERE ticket.tid= ${req.params.id}`;
+    let sql1=`SELECT src,dest FROM route WHERE rid in(SELECT rid FROM ticket WHERE email_address="${req.session.emailAddress}")`;
+    let sql2=`SELECT * FROM passenger WHERE pid in(SELECT pid FROM ticket WHERE tid=${req.params.id})`;
+ 
+    db.query(sql, (err1, results) => {
+        if (err1) throw err1;
+        db.query(sql1,(err2,results1)=>{
+                if(err2)
+                    throw err2;
+                db.query(sql2,(err,results2)=>{
+                        if(err)
+                            throw err;
+                        res.render('show-ticket', { results ,loggedinUser,results1,results2});
+                    }); 
+        });
+    })
+});
+
 db.connect((err) => {
     if (err) {
         console.log("Not connected!");
@@ -146,43 +166,44 @@ db.connect((err) => {
 
 app.get('/dashboard', function(req, res, next) {
     let sql = `SELECT * FROM ticket WHERE email_address="${req.session.emailAddress}"`;
-    let sql2 = `SELECT * FROM registration WHERE email_address="${req.session.emailAddress}"`
+    let sql2 = `SELECT * FROM registration WHERE email_address="${req.session.emailAddress}"`;
     const loggedinUser=req.session.loggedinUser;
      
     if(req.session.loggedinUser){
-        db.query(sql2,(err1,results2)=>{
+        db.query(sql2,(err1,result2) =>{
             if(err1)
-            throw err1;
-            db.query(sql,(err,results)=>{
-                if(err)
-                    throw err;
-                res.render('dashboard',{results:results,loggedinUser, result2:result2});
+                throw err1;
+            db.query(sql,(err2,results)=>{
+                if(err2)
+                    throw err2;
+                res.render('dashboard',{results:results,loggedinUser:loggedinUser, result2:result2});
             } );
         })
-       
-       
     }else{
         res.redirect('/login');
     }
 });
 
 app.get('/login', function(req, res, next) {
-    res.render('login-form');
+    const loggedinUser = req.session.loggedinUser;
+    res.render('login-form', {loggedinUser:loggedinUser});
   });
   
 app.post('/login', function(req, res){
       var emailAddress = req.body.email_address;
       var password = req.body.password;
-  
+      var loggedinUser=false;
+
       var sql='SELECT * FROM registration WHERE email_address =? AND password =?';
       db.query(sql, [emailAddress, password], function (err, data, fields) {
           if(err) throw err
+          console.log(err);
           if(data.length>0){
               req.session.loggedinUser= true;
               req.session.emailAddress= emailAddress;
               res.redirect('/dashboard');
           }else{
-              res.render('login-form',{alertMsg:"Your Email Address or password is wrong"});
+              res.render('login-form',{alertMsg:"Your Email Address or password is wrong",loggedinUser:loggedinUser});
           }
       })
   
@@ -194,13 +215,14 @@ app.get('/logout', function(req, res) {
 });
 
 app.get('/register', function(req, res, next) {
-    res.render('registration-form');
-  });
+    let loggedinUser = req.session.loggedinUser;
+    res.render('registration-form',{loggedinUser:loggedinUser});
+});
   
-  // to store user input detail on post request
-  app.post('/register', function(req, res, next) {
-      
-      inputData ={
+// to store user input detail on post request
+app.post('/register', function(req, res, next) {
+    let loggedinUser = req.session.loggedinUser;
+    inputData ={
             email_address: req.body.email_address,
             first_name: req.body.first_name,
             last_name: req.body.last_name,
@@ -213,20 +235,22 @@ app.get('/register', function(req, res, next) {
   var sql=`SELECT * FROM registration WHERE email_address = ?`;
   db.query(sql, [inputData.email_address] ,function (err, data, fields) {
    if(err) throw err
-   if(data.length>1){
-       var msg = inputData.email_address+ "was already exist";
+   if(data.length>=1){
+       var msg = inputData.email_address +" " + " was already exist ";
    }else if(confirm_password != inputData.password){
       var msg ="Password & Confirm Password is not Matched";
    }else{
        
       // save users data into database
   var sql = `INSERT INTO registration SET ?`;
+
   db.query(sql, inputData, function (err, data) {
       if (err) throw err;
       });
       var msg ="Your are successfully registered";
+
       }
-   res.render('registration-form',{alertMsg:msg});
+    res.render('registration-form',{alertMsg:msg, loggedinUser:loggedinUser});
   })
        
 });

@@ -1,12 +1,11 @@
 <%- include("./partials/header"); -%>
-<div>
-    <h1>Welcome to Dashboard</h1>
-    <h2>User Details</h2>
-    <%=FIRST_NAME : detail.first_name %>
-    <%=LAST_NAME : detail.last_name %>
-    <%=EMAIL : detail.email %>
-</div>
-        
+        <header class="jumbotron text-light rounded-0 d-none d-md-block">
+            <div class="container">
+                <div class="jumbotron-text mt-5 text-center">
+                    <h1 class="display-3 jumbotronText"><i class="fas fa-user-circle"></i>  Welcome <%= result2[0].first_name %> <%= result2[0].last_name %></h1>
+                </div>
+            </div>
+        </header>
         <div class="container">
             <div class="row mb-5">
                 <% results.forEach(function(ticket) { %>
@@ -21,7 +20,7 @@
                             <h6 class="card-subtitle">
                                 <p> Fare: <%=ticket.fare%></p>
                             </h6>
-                            <form action="#" method="GET">
+                            <form action="/bus/dashboard/<%=ticket.tid%>" method="GET">
                                 <button class="btn btn-xs btn-success">More Info</button>
                             </form>
                         </div>
@@ -29,7 +28,7 @@
                 </div>
                 <% }) %>
             </div>
+        </div>
 
-        <p><a href="/logout">Logout</a></p>
-        <p><a href="/">Home</a></p>
+        
 <%- include("./partials/footer"); -%>
