@@ -1,0 +1,20 @@
+<%- include("./partials/header"); -%>
+
+<h1 class="text-center m-4">DETAILS OF TICKET NUMBER <%= results[0].tid %></h1>
+
+<div class="row justify-content-center">
+    <div class="card text-center shadow" style="width: 30rem;">
+        <img class="card-img-top" src="https://e-z-o.com/assets/img/tickets/ticket.jpg" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title"><p>Ticket Number : <%=results[0].tid%></p></h5>
+            <p class="card-text">Name :<%=results2[0].name%>
+                <br>Age : <%=results2[0].age%>
+                <br>Gender : <%=results2[0].gender%>
+                <br>Source : <%=results1[0].src%>
+                <br>Destination: <%= results1[0].dest%>
+            </p>
+        </div>
+    </div>
+</div>
+
+<%- include("./partials/footer"); -%>
