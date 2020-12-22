@@ -15,7 +15,7 @@ app.use(express.static(__dirname + '/public'));
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "polynomials",
+    password: "password",
     database: "buses"
 });
 
@@ -61,7 +61,7 @@ app.get("/bus/:id", (req, res) => {
     let sql = `SELECT * FROM bus WHERE bus.bid= ${req.params.id}`;
     let query = db.query(sql, (err, results) => {
         if (err) throw err;
-        res.render('show', { results ,loggedinUser});
+        res.render('show',  { results ,loggedinUser});
 
     })
 });
@@ -146,13 +146,20 @@ db.connect((err) => {
 
 app.get('/dashboard', function(req, res, next) {
     let sql = `SELECT * FROM ticket WHERE email_address="${req.session.emailAddress}"`;
+    let sql2 = `SELECT * FROM registration WHERE email_address="${req.session.emailAddress}"`
     const loggedinUser=req.session.loggedinUser;
+     
     if(req.session.loggedinUser){
-        db.query(sql,(err,results)=>{
-            if(err)
-                throw err;
-            res.render('dashboard',{results:results,loggedinUser});
-        } );
+        db.query(sql2,(err1,results2)=>{
+            if(err1)
+            throw err1;
+            db.query(sql,(err,results)=>{
+                if(err)
+                    throw err;
+                res.render('dashboard',{results:results,loggedinUser, result2:result2});
+            } );
+        })
+       
        
     }else{
         res.redirect('/login');

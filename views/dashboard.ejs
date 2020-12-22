@@ -1,5 +1,12 @@
 <%- include("./partials/header"); -%>
-        <h2>Welcome to Dashboard</h2>
+<div>
+    <h1>Welcome to Dashboard</h1>
+    <h2>User Details</h2>
+    <%=FIRST_NAME : detail.first_name %>
+    <%=LAST_NAME : detail.last_name %>
+    <%=EMAIL : detail.email %>
+</div>
+        
         <div class="container">
             <div class="row mb-5">
                 <% results.forEach(function(ticket) { %>
