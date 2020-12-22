@@ -15,7 +15,7 @@ app.use(express.static(__dirname + '/public'));
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "password",
+    password: "polynomials",
     database: "buses"
 });
 
@@ -51,7 +51,7 @@ app.post("/bus", (req, res) => {
     
     db.query(query, (err, results) => {
         if (err) throw err;
-        console.log(results);
+        // console.log(results);
         res.render("bus.ejs", { results, source, destination, loggedinUser});
     });
 });
@@ -76,9 +76,7 @@ app.post("/bus/:id", (req, res) =>{
     let bid=req.params.id;
     let post= {bid: bid,  name: name , age: age, gender: gender};
     var loggedinUser = req.session.loggedinUser;
-    var id=req.session.id;
-    console.log(req.session.id);
-
+    var email=req.session.emailAddress;
     //Inserting into passenger table
     let sql='INSERT INTO passenger SET ?';
     db.query(sql,post,(err,result)=>{
@@ -89,9 +87,7 @@ app.post("/bus/:id", (req, res) =>{
     let query1 = `SELECT * FROM bus WHERE bus.bid=` + bid;
     let fare=1000;
     
-    let sql2=`SELECT pid FROM passenger WHERE name=name`; // SELECT pid FROM table passenger ORDER BY pid DESC LIMIT 1;
-    let pid;
-    let bus;
+    let sql2=`SELECT pid FROM passenger WHERE name=name`; // SELECT pid FROM table passenger ORDER BY pid DESC LIMIT 1
 
     db.query(sql2,(err,results)=>{
         if(err) throw err;
@@ -100,7 +96,7 @@ app.post("/bus/:id", (req, res) =>{
    
     db.query(query1,(err,result1)=>{
         if(err) throw err;
-        let data={fare:fare,rid:result1[0].rid,pid:pid,id:id};
+        let data={fare:fare,rid:result1[0].rid,pid:pid,email_address:email};
         let sql3='INSERT INTO ticket SET ?';
         let query=db.query(sql3,data,(err,result2)=>{
             if(err) throw err; 
@@ -149,8 +145,15 @@ db.connect((err) => {
 /*===========================================================================================*/
 
 app.get('/dashboard', function(req, res, next) {
+    let sql = `SELECT * FROM ticket WHERE email_address="${req.session.emailAddress}"`;
+    const loggedinUser=req.session.loggedinUser;
     if(req.session.loggedinUser){
-        res.render('dashboard',{email:req.session.emailAddress})
+        db.query(sql,(err,results)=>{
+            if(err)
+                throw err;
+            res.render('dashboard',{results:results,loggedinUser});
+        } );
+       
     }else{
         res.redirect('/login');
     }
@@ -191,11 +194,11 @@ app.get('/register', function(req, res, next) {
   app.post('/register', function(req, res, next) {
       
       inputData ={
-          first_name: req.body.first_name,
-          last_name: req.body.last_name,
-          email_address: req.body.email_address,
-          gender: req.body.gender,
-          password: req.body.password
+            email_address: req.body.email_address,
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            gender: req.body.gender,
+            password: req.body.password
       }
       const confirm_password=req.body.confirm_password;
   // check unique email address
