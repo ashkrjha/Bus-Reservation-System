@@ -1,4 +1,15 @@
 <%- include("./partials/header"); -%>
+<style> 
+    .vertical-center {
+      margin-top: 100px;
+      margin-left: 100px;
+      position: absolute;
+      top: 50%;
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+      text-align: center;
+    }
+    </style>
 <header class="jumbotron text-light rounded-0 d-none d-md-block">
     <div class="container">
         <div class="jumbotron-text mt-5 text-center">
@@ -7,7 +18,7 @@
         </div>
     </div>
 </header>
-
+<% if(results.length>0) {%>
 <div class="container">
     <div class="row mb-5">
         <% results.forEach(function(bus) { %>
@@ -31,8 +42,17 @@
         </div>
         <% }) %>
     </div>
-    <a href="/"></a>Go Back!</a>
 </div>
+<% }%>
+<%if(results.length==0) {%>
+    
+        <div class="vertical-center">
+            <h1>Sorry Buses are not Available for this Route ,Please Go Back to see Available Routes</h1>
+            <br>
+            <a class="btn btn-primary" href="/" role="button">Go Back</a>
+        </div>
+      
+<%}%>
 
 
 <%- include("./partials/footer"); -%>

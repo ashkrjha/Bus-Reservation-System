@@ -9,6 +9,13 @@
 </head>
 
 <body>
+  <% if(message && message.length>0)  { %>
+    <div class="container mt-3 message">
+    <div class="alert alert-success" role="alert">
+      <%= message %>
+    </div>
+  </div>
+  <% } %>
   <% if (loggedinUser) { %>
     <a href="/dashboard" class="btn btn-danger btn-md landing-btn">Profile</a>
     <a href="/logout" class="btn btn-danger btn-md landing-btn">Log Out</a>

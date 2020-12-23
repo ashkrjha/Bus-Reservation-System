@@ -1,4 +1,13 @@
 <%- include("./partials/header"); -%>
+<% if(message && message.length>0) { %>
+  <div class="container mt-4">
+  <div class="alert alert-danger" role="alert">
+    <%= message %>
+  </div>
+</div>
+<% } %>
+
+
 <div class="login-form">
 <p><%=(typeof alertMsg!='undefined')? alertMsg:''%></p>
 <div class="container mt-5">
