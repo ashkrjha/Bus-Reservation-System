@@ -1,8 +1,12 @@
 var express = require('express');
 var router = express.Router();
-/* GET users listing. */
+var flash = require("connect-flash");
+router.use(flash());
+
 router.get('/logout', function(req, res) {
+  req.flash("success","You have successfully logged out");
+  res.render("landing.ejs",{loggedinUser:false, message: req.flash("success")});
   req.session.destroy();
-  res.redirect('/login');
 });
+
 module.exports = router;

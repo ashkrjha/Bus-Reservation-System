@@ -12,10 +12,6 @@ CREATE TABLE IF NOT EXISTS bus (
     seats INT
 );
 
--- CREATE TABLE IF NOT EXISTS station (
---     sname VARCHAR(50) primary key
--- );
-
 CREATE TABLE IF NOT EXISTS route (
     rid INT PRIMARY KEY,
     dist_source INT,
@@ -53,50 +49,24 @@ CREATE TABLE IF NOT EXISTS employee (
         REFERENCES bus(bid)
 );
 
--- CREATE TABLE IF NOT EXISTS station_on_routes (
---     rid INT,
---     scode INT,
---     PRIMARY KEY (rid , scode),
---     FOREIGN KEY (rid)
---         REFERENCES route (rid),
---     FOREIGN KEY (scode)
---         REFERENCES station(scode)
--- );
-
 ALTER TABLE bus
 ADD FOREIGN KEY (rid)
 REFERENCES route (rid);
 
--- ALTER TABLE passenger
--- ADD FOREIGN KEY (bid)
--- REFERENCES bus (bid);
+CREATE TABLE `registration` (
+  `email_address` varchar(50) PRIMARY KEY,
+  `first_name` varchar(30) DEFAULT NULL,
+  `last_name` varchar(30) DEFAULT NULL,
+  `gender` varchar(10)  DEFAULT NULL,
+  `password` varchar(20) DEFAULT NULL
+);
 
--- ALTER TABLE ticket
--- ADD FOREIGN KEY (pid)
--- REFERENCES passenger (pid);
+ALTER TABLE ticket
+ADD COLUMN `email_address` VARCHAR(50);
 
--- ALTER TABLE employee
--- ADD FOREIGN KEY (bid)
--- REFERENCES bus (bid);
-
--- INSERT INTO 
--- 	station(scode, sname)
--- VALUES
--- 	(1, 'Ahmedabad'),
---     (2, 'Bengaluru'),
---     (3, 'Bhopal'),
---     (4, 'Bhubaneshwar'),
---     (5, 'Chennai'),
---     (6, 'Hyderabad'),
---     (7, 'Jaipur'),
---     (8, 'Kolkata'),
---     (9, 'Lucknow'),
---     (10, 'Mumbai'),
---     (11, 'New Delhi'),
---     (12, 'Patna'),
---     (13, 'Pune'),
---     (14, 'Srinagar'),
---     (15, 'Varanasi');
+ALTER TABLE ticket 
+ADD FOREIGN KEY (email_address)
+REFERENCES registration (email_address);
 
 INSERT INTO
 	route(rid,dist_source, src, dest)
@@ -180,18 +150,3 @@ VALUES
     (38,'Raju','Conductor',19),
     (39,'Raju','Driver',20),
     (40,'Raju','Conductor',20);
-
-CREATE TABLE `registration` (
-  `email_address` varchar(50) PRIMARY KEY,
-  `first_name` varchar(30) DEFAULT NULL,
-  `last_name` varchar(30) DEFAULT NULL,
-  `gender` varchar(10)  DEFAULT NULL,
-  `password` varchar(20) DEFAULT NULL
-);
-
-ALTER TABLE ticket
-ADD COLUMN `email_address` VARCHAR(50);
-
-ALTER TABLE ticket 
-ADD FOREIGN KEY (email_address)
-REFERENCES registration (email_address);
