@@ -3,6 +3,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const app = express();
+const flash = require("connect-flash");
+app.use(flash());
 
 var session = require('express-session');
 app.use(express.urlencoded({ extended: true }));
@@ -32,13 +34,14 @@ function isloggedIn(req,res,next){
     if(req.session.loggedinUser){
         return next();
     }
+    req.flash("error","Please Login First");
     res.redirect("/login");
 }
 
 
 app.get("/", (req, res) => {
     var loggedinUser = req.session.loggedinUser;
-    res.render("landing.ejs",{loggedinUser:loggedinUser});
+    res.render("landing.ejs",{loggedinUser:loggedinUser, message:""});
     
 });
 
@@ -51,7 +54,7 @@ app.post("/bus", (req, res) => {
     
     db.query(query, (err, results) => {
         if (err) throw err;
-        // console.log(results);
+         console.log(results);
         res.render("bus.ejs", { results, source, destination, loggedinUser});
     });
 });
@@ -186,7 +189,7 @@ app.get('/dashboard', function(req, res, next) {
 
 app.get('/login', function(req, res, next) {
     const loggedinUser = req.session.loggedinUser;
-    res.render('login-form', {loggedinUser:loggedinUser});
+    res.render('login-form', {loggedinUser:loggedinUser, message: req.flash("error")});
   });
   
 app.post('/login', function(req, res){
@@ -196,8 +199,7 @@ app.post('/login', function(req, res){
 
       var sql='SELECT * FROM registration WHERE email_address =? AND password =?';
       db.query(sql, [emailAddress, password], function (err, data, fields) {
-          if(err) throw err
-          console.log(err);
+          if(err) throw err;
           if(data.length>0){
               req.session.loggedinUser= true;
               req.session.emailAddress= emailAddress;
@@ -211,7 +213,7 @@ app.post('/login', function(req, res){
 
 app.get('/logout', function(req, res) {
     req.session.destroy();
-    res.redirect('/');
+    res.render("landing.ejs",{loggedinUser:false, message: "You have been successfully logged out"});
 });
 
 app.get('/register', function(req, res, next) {
@@ -236,9 +238,9 @@ app.post('/register', function(req, res, next) {
   db.query(sql, [inputData.email_address] ,function (err, data, fields) {
    if(err) throw err
    if(data.length>=1){
-       var msg = inputData.email_address +" " + " was already exist ";
+       var msg = inputData.email_address +" " + " already exist ";
    }else if(confirm_password != inputData.password){
-      var msg ="Password & Confirm Password is not Matched";
+      var msg ="Password & Confirm Password Does Not Match";
    }else{
        
       // save users data into database

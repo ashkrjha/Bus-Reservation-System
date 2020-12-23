@@ -4,6 +4,13 @@ body {
 
 }
 
+.message{
+  z-index: 2;
+  position: relative;
+  display: inline-block;
+  width: 30%;
+}
+
 .landing-btn{
   z-index: 2;
   position: relative;
